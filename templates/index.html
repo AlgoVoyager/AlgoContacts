@@ -1,0 +1,126 @@
+{% extends 'base.html' %}
+{% block title %}Home{% endblock title %}
+{% block css %}
+  
+#add-window{
+  display:none;
+  
+  background:rgb(245, 245, 245)
+}
+input[type=text] {
+  width: 100%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  display: inline-block;
+  border: 1px solid rgb(228, 228, 228);
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+.add-btn{
+  width: 100%;
+  background-color: #4CAF50;
+  color: white;
+  padding: 14px 20px;
+  margin: 8px 0;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+#add-drop{
+  border-radius:0px 0px 15px 15px;
+  width:100%;
+ 
+}
+#add-up{
+  width: 100%;
+  cursor: pointer;
+  border-radius:0px 0px 15px 15px;
+}
+
+{% endblock css %}
+{% block body %}
+
+
+<div class="container " > 
+  <div class="container" id="add-window" > 
+  
+<form method="POST" action="/" > 
+  <h2 class="text-center">ADD CONTACT HERE</h2>
+    {% csrf_token %}
+
+    
+      
+        {{form.name.label}}
+        {{form.name}}
+        {{form.phone.label}}
+        {{form.phone}}
+      
+    
+
+    <button type="submit" class="add-btn btn btn-primary">
+     ADD
+    </button>
+   
+</form>
+</div>
+
+<button class="btn btn-outline-dark" type="button" id="add-up" style="display:none;"
+onclick="document.getElementById('add-window').style.display = 'none';document.getElementById('add-drop').style.display = 'block';document.getElementById('add-up').style.display = 'none'">
+close</button>
+
+
+<button class="btn btn-outline-success position-sticky" type="button" id="add-drop"
+onclick="document.getElementById('add-window').style.display = 'block';document.getElementById('add-drop').style.display = 'none';document.getElementById('add-up').style.display = 'block'">
+Add New Contact</button>
+</div>
+
+
+<div class="container" style="margin-top:20px">
+<div>
+  <span style="font-size: larger;">Your Contact List</span> 
+  <span style="float:right;">
+    <span style="font-size: large;">Hello,{{request.user}} | </span>
+    <span ><a href="{% url 'logout' %}">Logout</a></span>
+  </span>
+</div>
+
+  <table class="table  table-sm table-hover  table-striped">
+    
+    <thead>
+      <tr>
+        <th scope="col">Edit</th>
+        <th scope="col">Name</th>
+        <th scope="col">Phone no.</th>
+        <th scope="col">Delete</th>
+      </tr>
+    </thead>
+    <tbody>
+{% for contact in stored%}
+<tr> 
+  <td>
+   <a class="btn btn-info" href="{% url 'update_contact' contact.id %}">
+    <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px"
+    width="20" height="20"
+    viewBox="0 0 171 171"
+    style=" fill:#000000;"><g fill="none" fill-rule="nonzero" stroke="none" stroke-width="1" stroke-linecap="butt" stroke-linejoin="miter" stroke-miterlimit="10" stroke-dasharray="" stroke-dashoffset="0" font-family="none" font-weight="none" font-size="none" text-anchor="none" style="mix-blend-mode: normal"><path d="M0,171.99599v-171.99599h171.99599v171.99599z" fill="none"></path><g fill="#ffffff"><path d="M143.47969,5.7c-5.79078,-0.01818 -11.34773,2.28318 -15.43008,6.39023l-75.07969,75.07969c-0.62097,0.6275 -1.08946,1.38929 -1.36934,2.22656l-11.4,34.2c-0.57936,1.73698 -0.28899,3.64654 0.7805,5.13279c1.06949,1.48625 2.78787,2.36824 4.61892,2.37072c0.61271,-0.00028 1.22149,-0.09798 1.80352,-0.28945l34.2,-11.4c0.8393,-0.28104 1.60162,-0.75368 2.22656,-1.38047l75.07969,-75.07969c6.24196,-6.24034 8.10958,-15.62658 4.73181,-23.781c-3.37777,-8.15442 -11.33557,-13.47072 -20.16189,-13.46939zM22.8,17.1c-9.44407,0 -17.1,7.65593 -17.1,17.1v114c0,9.44407 7.65593,17.1 17.1,17.1h102.6c9.44407,0 17.1,-7.65593 17.1,-17.1v-57c0,-3.14802 -2.55198,-5.7 -5.7,-5.7c-3.14802,0 -5.7,2.55198 -5.7,5.7v57c0,3.14802 -2.55198,5.7 -5.7,5.7h-102.6c-3.14802,0 -5.7,-2.55198 -5.7,-5.7v-114c0,-3.14802 2.55198,-5.7 5.7,-5.7h68.4c3.14802,0 5.7,-2.55198 5.7,-5.7c0,-3.14802 -2.55198,-5.7 -5.7,-5.7zM143.63555,17.1334c5.67991,0.08761 10.24421,4.70636 10.26445,10.38691c0.00662,2.76511 -1.09153,5.41832 -3.05039,7.36992l-74.1,74.1l-22.14317,7.40332l7.36992,-22.1209l74.1334,-74.1c1.99506,-1.98808 4.70964,-3.08435 7.52578,-3.03926z"></path></g></g></svg>  
+  </a>
+   
+ </td>
+ 
+ <td>{{contact.name}}</td>
+ <td>{{contact.phone}}</td>
+ <td><a class="btn btn-danger " href="{% url 'delete_contact' contact.id %}">
+     <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px"
+    width="20" height="20"
+    viewBox="0 0 171 171"
+    style=" fill:#000000;"><g fill="none" fill-rule="nonzero" stroke="none" stroke-width="1" stroke-linecap="butt" stroke-linejoin="miter" stroke-miterlimit="10" stroke-dasharray="" stroke-dashoffset="0" font-family="none" font-weight="none" font-size="none" text-anchor="none" style="mix-blend-mode: normal"><path d="M0,171.99599v-171.99599h171.99599v171.99599z" fill="none"></path><g fill="#ffffff"><path d="M71.25,14.25l-7.125,7.125h-28.5c-4.275,0 -7.125,2.85 -7.125,7.125c0,4.275 2.85,7.125 7.125,7.125h14.25h71.25h14.25c4.275,0 7.125,-2.85 7.125,-7.125c0,-4.275 -2.85,-7.125 -7.125,-7.125h-28.5l-7.125,-7.125zM35.625,49.875v92.625c0,7.8375 6.4125,14.25 14.25,14.25h71.25c7.8375,0 14.25,-6.4125 14.25,-14.25v-92.625zM64.125,64.125c4.275,0 7.125,2.85 7.125,7.125v64.125c0,4.275 -2.85,7.125 -7.125,7.125c-4.275,0 -7.125,-2.85 -7.125,-7.125v-64.125c0,-4.275 2.85,-7.125 7.125,-7.125zM106.875,64.125c4.275,0 7.125,2.85 7.125,7.125v64.125c0,4.275 -2.85,7.125 -7.125,7.125c-4.275,0 -7.125,-2.85 -7.125,-7.125v-64.125c0,-4.275 2.85,-7.125 7.125,-7.125z"></path></g></g></svg>
+  </a></td>
+ 
+</tr>
+{% endfor %}
+</tbody>
+  </table>
+</div>
+
+{% endblock body %}
