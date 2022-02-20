@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-h48ly=_mc)=%2p4nr58g$^1kh^kbf76amub5(f@7fs#fk3t-0f
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['algocontacts.herokuapp.com']
 
 
 # Application definition
