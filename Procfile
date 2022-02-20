@@ -1,1 +1,1 @@
-web gunicorn todolist.wsgi:application --log-file -
+web gunicorn contacts.wsgi:application --log-file -
